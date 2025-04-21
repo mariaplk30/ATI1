@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>María Paula Lozano</title>
+    <link rel="icon" type="image/x-icon" href="http://www.ciens.ucv.ve/portalasig2/favicon.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contenedor {
+            display: flex;
+            width: 800px;
+            background-color: #f5f5f5;
+        }
+
+        .contenedor-foto {
+            width: 230px;
+        }
+
+        .contenedor-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-top-left-radius: 70px;
+        }
+
+        .info-contenedor {
+            margin-left: 10px;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #000000;
+            box-shadow: 5px 5px 0px 1px #808080;
+            flex: 1;
+        }
+
+        .nombre {
+            font-size: 26px;
+            color: orange;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+
+        .bio {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 14px;
+            text-align: justify;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .preferencias {
+            font-family: Georgia, serif;
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 8px 10px;
+            font-size: 15px;
+        }
+
+        .contacto {
+            font-family: Georgia, serif;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .contacto a:link {
+            color: orange;
+            text-decoration: none;
+        }
+
+        .contacto a:visited {
+            color: red !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="contenedor-foto">
+            <img src="30001499.jpg" alt="Foto de María Paula Lozano">
+        </div>
+        <div class="info-contenedor">
+            <div class="nombre">María Paula Lozano</div>
+            <p class="bio">
+                Soy estudiante de la Licenciatura en Computación. Me gusta resolver problemas y trabajar en el desarrollo backend, 
+                donde puedo enfocarme en la lógica, la estructura de los sistemas y la eficiencia del código.
+            </p>
+
+            <div class="preferencias">
+                <div>Mi color favorito es:</div><div>Amarillo</div>
+                <div>Mi libro favorito es:</div><div>Harry Potter</div>
+                <div>Mi estilo de música preferida:</div><div>Pop</div>
+                <div>Video juegos favoritos:</div><div>Minecraft y Counter Strike</div>
+                <div><b>Lenguajes aprendidos:</b></div><div><b>c++, java, python</b></div>
+            </div>
+
+            <div class="contacto">
+                Si necesitan comunicarse conmigo me pueden escribir a: 
+                <a href="mailto:mariaplk30@gmail.com">mariaplk30@gmail.com</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
