@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>ATI[UCV] 2024-1</title>
+  <link rel="icon" type="image/x-icon" href="http://www.ciens.ucv.ve/portalasig2/favicon.ico">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+    }
+
+    header {
+      background-color: #87b1ef;
+      border-bottom: 2px solid #ccc;     
+    }
+
+    nav {
+        background-color: #87b1ef;
+        border-bottom: 2px solid #ccc;
+    }
+
+    .nav-lista {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        height: 40px;
+        color: white;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-sec {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid white;
+    }
+        
+    form {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .titulo {
+        font-size: 26px;
+        font-weight: semi-bold;
+    }
+
+    .titulo span {
+        font-size: 15px;
+        font-weight: normal; 
+    }
+
+    .texto-centro {
+        font-size: 14px;
+    }
+
+
+    input[type="text"] {
+        padding: 4px;
+        border: none;
+        font-size: 14px;
+    }
+
+    input[type="submit"] {
+        background-color: #f5f7f9;
+        color: #87b1ef;
+        border: none;
+        padding: 4px 8px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    .estudiantes {
+        display: grid;
+        grid-template-columns: repeat(4, 150px);
+        gap: 70px; 
+        justify-content: center;
+        row-gap: 20px; 
+    }
+
+    .estudiantes li {
+        list-style: none;
+        text-align: center;
+        background-color: #f5f7f9;
+        padding: 15px;
+        width: 200px;
+        height: 200px;
+        box-shadow: 1px 1px 0px 1px #6965655b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .estudiantes img {
+        width: 60%;
+        height: 100%;
+        object-fit: fill;
+        border: none;
+    }
+
+    .estudiantes p {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #7eadde;
+    }
+
+    footer {
+        background-color: #87b1ef;
+        text-align: center;
+        padding: 10px;
+        font-size: 12px;
+        margin-top: auto; 
+        border-top: 2px solid #ccc;      
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+        <ul class="nav-lista">
+          <li class="nav-sec">
+            <div class="titulo">ATI<span>[UCV]</span> 2024-1</div>
+          </li>
+          <li class="nav-sec">
+            <div class="texto-centro">Hola, María Paula</div>
+          </li>
+          <li class="nav-sec">
+            <form>
+              <input type="text" placeholder="Nombre...">
+              <input type="submit" value="Buscar">
+            </form>
+          </li>
+        </ul>
+      </nav>
+  </header>
+
+  <section>
+    <ul class="estudiantes">
+        <li>
+            <img src="./30001499/30001499.jpg" alt="María Paula Lozano">
+            <p>María Paula Lozano</p>
+        </li>
+        <li>
+            <img src="./dummy1/dummy.jpg" alt="dummy1">
+            <p>Davida Delgado</p>
+        </li>
+        <li>
+            <img src="./dummy2/dummy.jpg" alt="dummy2">
+            <p>Juana Fernandes</p>
+        </li>
+        <li>
+            <img src="./dummy3/dummy.jpg" alt="dummy3">
+            <p>Frida López</p>
+        </li>
+        <li>
+            <img src="./dummy4/dummy.jpg" alt="dummy4">
+            <p>Manuel Fernández</p>
+        </li>
+        <li>
+            <img src="./dummy5/dummy.jpg" alt="dummy5">
+            <p>Freddy Mercury</p>
+        </li>
+        <li>
+            <img src="./dummy6/dummy.jpg" alt="dummy6">
+            <p>David Thin</p>
+        </li>
+        <li>
+            <img src="./dummy2/dummy.jpg" alt="dummy2">
+            <p>Juana Fernandes</p>
+        </li>
+        <li>
+            <img src="./dummy3/dummy.jpg" alt="dummy3">
+            <p>Frida López</p>
+        </li>
+        <li>
+            <img src="./dummy4/dummy.jpg" alt="dummy4">
+            <p>Manuel Fernández</p>
+        </li>
+        <li>
+            <img src="./dummy2/dummy.jpg" alt="dummy2">
+            <p>Juana Fernandes</p>
+        </li>
+        <li>
+            <img src="./dummy3/dummy.jpg" alt="dummy3">
+            <p>Frida López</p>
+        </li>              
+    </ul>
+  </section>
+
+  <footer>
+    Copyright © 2024 Escuela de computación - ATI. Todos los derechos reservados
+  </footer>
+</body>
+</html>
