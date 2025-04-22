@@ -192,6 +192,12 @@ body.perfil {
       color: #7eadde;
   }
 
+  .estudiantes li:hover {
+    animation: rotar 0.5s ease-in-out forwards;
+    background: #99c5dd;
+    box-shadow: 1px 1px 0px 1px #6965655b;
+}  
+
   footer {
       background-color: #87b1ef;
       text-align: center;
@@ -200,3 +206,12 @@ body.perfil {
       margin-top: auto; 
       border-top: 2px solid #ccc;      
   }
+
+@keyframes rotar {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    100% {
+        transform: rotate(9deg) scale(1.05);
+    }
+}  
