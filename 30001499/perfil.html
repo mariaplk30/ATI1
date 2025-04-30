@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>María Paula Lozano</title>
     <link rel="icon" type="image/x-icon" href="http://www.ciens.ucv.ve/portalasig2/favicon.ico">
     <link rel="stylesheet" href="../css/style.css">
@@ -9,7 +9,11 @@
 <body class="perfil">
     <div class="contenedor">
         <div class="contenedor-foto">
-            <img src="30001499.jpg" alt="Foto de María Paula Lozano">
+            <picture>
+                <source media="(min-width: 1025px)" srcset="CEDULAGrande.jpg">
+                <source media="(max-width: 1024px)" srcset="CEDULAPequena.jpg">
+                <img src="CEDULAGrande.jpg" alt="Foto de María Paula Lozano">
+              </picture>
         </div>
         <div class="info-contenedor">
             <div class="nombre">María Paula Lozano</div>

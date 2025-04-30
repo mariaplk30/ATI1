@@ -1,218 +1,434 @@
+html {
+  font-size: 100%; /* Equivale a 16px por defecto */
+}
+
 /* perfil */
 body.perfil {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 40px;
-    display: flex;
-    justify-content: center;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 2.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .contenedor {
-    display: flex;
-    width: 800px;
-    background-color: #f5f5f5;
+  display: flex;
+  flex-direction: row;
+  width: 50rem;
+  background-color: #f5f5f5;
+  gap: 0.9375rem;
 }
 
 .contenedor-foto {
-    width: 230px;
+  width: 14.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contenedor-foto picture {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .contenedor-foto img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-top-left-radius: 70px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 4.375rem;
 }
 
 .info-contenedor {
-    margin-left: 10px;
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #000000;
-    box-shadow: 5px 5px 0px 1px #808080;
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: white;
+  padding: 1.25rem;
+  border: 0.0625rem solid #000000;
+  box-shadow: 0.3125rem 0.3125rem 0rem 0.0625rem #808080;
 }
 
 .nombre {
-    font-size: 26px;
-    color: orange;
-    font-weight: bold;
-    margin: 0 0 10px 0;
+  font-size: 1.625rem; /* 26px */
+  color: orange;
+  font-weight: bold;
+  margin: 0 0 0.625rem 0;
 }
 
 .bio {
-    font-family: Georgia, serif;
-    font-style: italic;
-    font-size: 14px;
-    text-align: justify;
-    margin-bottom: 20px;
-    line-height: 1.5;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 0.875rem; /* 14px */
+  text-align: justify;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
 }
 
 .preferencias {
-    font-family: Georgia, serif;
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 8px 10px;
-    font-size: 15px;
+  font-family: Georgia, serif;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0.5rem 0.625rem;
+  font-size: 0.9375rem; /* 15px */
+  margin-bottom: 1.25rem;
 }
 
 .contacto {
-    font-family: Georgia, serif;
-    font-size: 14px;
-    margin-top: 15px;
+  font-family: Georgia, serif;
+  font-size: 0.875rem;
+  margin-top: auto;
 }
 
 .contacto a:link {
-    color: orange;
-    text-decoration: none;
+  color: orange;
+  text-decoration: none;
 }
 
 .contacto a:visited {
-    color: red !important;
+  color: red !important;
 }
 
 /* index */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body.index {
+  font-family: Arial, sans-serif;
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #87b1ef;
+  border-bottom: 0.125rem solid #ccc;
+}
+
+nav {
+  background-color: #87b1ef;
+  border-bottom: 0.125rem solid #ccc;
+}
+
+.nav-lista {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  height: 2.5rem;
+  color: white;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-sec {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 0.0625rem solid white;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+}
+
+.titulo {
+  font-size: 1.625rem; /* 26px */
+  font-weight: 600;
+}
+
+.titulo span {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: normal;
+}
+
+.texto-centro {
+  font-size: 0.875rem; /* 14px */
+}
+
+input[type="text"] {
+  padding: 0.25rem;
+  border: none;
+  font-size: 0.875rem;
+}
+
+input[type="submit"] {
+  background-color: #f5f7f9;
+  color: #87b1ef;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  margin-left: 0.3125rem;
+}
+
+section {
+  padding: 1.25rem;
+}
+
+.estudiantes {
+  display: grid;
+  grid-template-columns: repeat(4, 9.375rem); /* 150px */
+  gap: 4.375rem;
+  justify-content: center;
+  row-gap: 1.25rem;
+}
+
+.estudiantes li {
+  list-style: none;
+  text-align: center;
+  background-color: #f5f7f9;
+  padding: 0.9375rem;
+  width: 12.5rem;
+  height: 12.5rem;
+  box-shadow: 0.0625rem 0.0625rem 0rem 0.0625rem #6965655b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.estudiantes img {
+  width: 60%;
+  height: 100%;
+  object-fit: fill;
+  border: none;
+}
+
+.estudiantes p {
+  margin-top: 0.625rem;
+  font-size: 0.875rem;
+  color: #7eadde;
+}
+
+.estudiantes li:hover {
+  animation: rotar 0.5s ease-in-out forwards;
+  background: #99c5dd;
+  box-shadow: 0.0625rem 0.0625rem 0rem 0.0625rem #6965655b;
+}
+
+footer {
+  background-color: #87b1ef;
+  text-align: center;
+  padding: 0.625rem;
+  font-size: 0.75rem;
+  margin-top: auto;
+  border-top: 0.125rem solid #ccc;
+}
+
+@keyframes rotar {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  100% {
+    transform: rotate(9deg) scale(1.05);
+  }
+}
+
+/* MEDIA QUERIES */
+
+/* 1. Dispositivos móviles: 320px — 480px */
+@media screen and (min-width: 320px) and (max-width: 480px) {
+  .contenedor {
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
   }
 
-  body.index {
-    font-family: Arial, sans-serif;
-    background-color: white;
-    min-height: 100vh; 
-    display: flex; 
-    flex-direction: column; 
+  .contenedor-foto {
+    width: 100%;
+    height: auto;
   }
 
-  header {
-    background-color: #87b1ef;
-    border-bottom: 2px solid #ccc;     
+  .contenedor-foto picture {
+    border-top-left-radius: 70px;
+    width: 100%;
+    height: auto;
   }
 
-  nav {
-      background-color: #87b1ef;
-      border-bottom: 2px solid #ccc;
+  .info-contenedor {
+    margin-left: 0;
+    padding: 15px;
+    box-shadow: none;
+    border: none;
   }
 
-  .nav-lista {
-      display: flex;
-      justify-content: space-between;
-      align-items: stretch;
-      height: 40px;
-      color: white;
-      list-style: none;
-      margin: 0;
-      padding: 0;
+  .preferencias {
+    grid-template-columns: 1fr;
+    font-size: 13px;
   }
 
-  .nav-sec {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-left: 1px solid white;
+  .nombre {
+    font-size: 20px;
   }
-      
-  form {
-      display: flex;
-      align-items: center;
-      gap: 5px;
+
+  .bio, .contacto, .estudiantes p {
+    font-size: 13px;
   }
 
   .titulo {
-      font-size: 26px;
-      font-weight: semi-bold;
+    font-size: 22px;
   }
 
-  .titulo span {
-      font-size: 15px;
-      font-weight: normal; 
+  .titulo span, .texto-centro, input[type="text"], input[type="submit"] {
+    font-size: 13px;
   }
 
-  .texto-centro {
-      font-size: 14px;
-  }
-
-
-  input[type="text"] {
-      padding: 4px;
-      border: none;
-      font-size: 14px;
-  }
-
-  input[type="submit"] {
-      background-color: #f5f7f9;
-      color: #87b1ef;
-      border: none;
-      padding: 4px 8px;
-      font-size: 14px;
-      cursor: pointer;
-      margin-left: 5px;
-  }
-
-  section {
-      padding: 20px;
+  footer {
+    font-size: 11px;
   }
 
   .estudiantes {
-      display: grid;
-      grid-template-columns: repeat(4, 150px);
-      gap: 70px; 
-      justify-content: center;
-      row-gap: 20px; 
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
   .estudiantes li {
-      list-style: none;
-      text-align: center;
-      background-color: #f5f7f9;
-      padding: 15px;
-      width: 200px;
-      height: 200px;
-      box-shadow: 1px 1px 0px 1px #6965655b;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    width: 100%;
+    height: auto;
   }
 
-  .estudiantes img {
-      width: 60%;
-      height: 100%;
-      object-fit: fill;
-      border: none;
+  /* Navbar responsive */
+  .nav-lista {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .estudiantes p {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #7eadde;
+  .nav-sec {
+    width: 100%;
+    padding: 0.5rem 0;
+    text-align: left;
+    border-left: none;
   }
 
-  .estudiantes li:hover {
-    animation: rotar 0.5s ease-in-out forwards;
-    background: #99c5dd;
-    box-shadow: 1px 1px 0px 1px #6965655b;
-}  
-
-  footer {
-      background-color: #87b1ef;
-      text-align: center;
-      padding: 10px;
-      font-size: 12px;
-      margin-top: auto; 
-      border-top: 2px solid #ccc;      
+  .titulo {
+    font-size: 1.25rem;
   }
 
-@keyframes rotar {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-    100% {
-        transform: rotate(9deg) scale(1.05);
-    }
+  .texto-centro {
+    font-size: 0.75rem;
+  }
+
+  input[type="text"], input[type="submit"] {
+    font-size: 0.875rem;
+    padding: 0.25rem;
+    width: 100%; /* Se asegura que ocupe todo el ancho */
+  }
 }
 
+/* 2. Tablets: 481px — 768px */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .contenedor {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .contenedor-foto {
+    width: 100%;
+    height: auto;
+  }
+
+  .contenedor-foto picture {
+    border-top-left-radius: 70px;
+    width: 100%;
+    height: auto;
+  }
+
+  .info-contenedor {
+    margin-left: 0;
+    box-shadow: 3px 3px 5px #aaa;
+  }
+
+  .preferencias {
+    grid-template-columns: 1fr 1fr;
+    font-size: 14px;
+  }
+
+  .nombre {
+    font-size: 22px;
+  }
+
+  .bio, .contacto, .estudiantes p {
+    font-size: 14px;
+  }
+
+  .titulo {
+    font-size: 24px;
+  }
+
+  .titulo span, .texto-centro, input[type="text"], input[type="submit"] {
+    font-size: 14px;
+  }
+
+  footer {
+    font-size: 12px;
+  }
+
+  .estudiantes {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .estudiantes li {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Navbar responsive */
+  .nav-lista {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-sec {
+    padding: 0.5rem;
+    flex: 1;
+  }
+
+  input[type="text"], input[type="submit"] {
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    width: 100%; /* Se asegura que ocupe todo el ancho */
+  }
+
+  .titulo {
+    font-size: 1.5rem;
+  }
+
+  .texto-centro {
+    font-size: 0.85rem;
+  }
+}
+
+/* 3. Pantallas grandes / escritorio: 769px en adelante */
+@media screen and (min-width: 769px) {
+  .nav-lista {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-sec {
+    padding: 0.5rem 1rem;
+  }
+
+  input[type="text"], input[type="submit"] {
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    width: auto; /* Se asegura de que no cambie */
+  }
+
+  .titulo {
+    font-size: 1.625rem;
+  }
+
+  .texto-centro {
+    font-size: 0.875rem;
+  }
+}
