@@ -1,0 +1,13 @@
+const perfil = {
+    "nombre":"María Paula Lozano",
+    "descripcion": "Soy estudiante de la Licenciatura en Computación. Me gusta resolver problemas y trabajar en el desarrollo backend, donde puedo enfocarme en la lógica, la estructura de los sistemas y la eficiencia del código.",
+    "color": "Amarillo",
+    "libro": ["Harry Potter"],
+    "musica": ["Pop"],
+    "video_juego":["Minecraft","Counter Strike"],
+    "lenguajes":["C++", "Java", "python"],
+    "email":"mariaplk30@gmail.com",
+    "ci":"30001499",
+    "genero":"Femenino",
+    "fecha_nacimiento":"30/04/2002"
+    }
