@@ -2,35 +2,37 @@
 <html lang="es">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>María Paula Lozano</title>
+    <title>Perfil</title>
     <link rel="icon" type="image/x-icon" href="http://www.ciens.ucv.ve/portalasig2/favicon.ico">
     <link rel="stylesheet" href="../css/style.css">    
+    <script src="../js/index.js"></script>
 </head>
 <body class="perfil">
     <div class="contenedor">
         <div class="contenedor-foto">
             <picture>
-                <source media="(min-width: 1025px)" srcset="">
-                <source media="(max-width: 1024px)" srcset="">
-                <img src="" alt="Foto de ">
+                <source media="(min-width: 1025px)" srcset="" id="img-lg">
+                <source media="(max-width: 1024px)" srcset="" id="img-sm">
+                <img src="" alt="Foto del estudiante" id="foto-perfil">
             </picture>
         </div>
         <div class="info-contenedor">
-            <div class="nombre"></div>
-            <p class="bio">
+            <div class="nombre" id="nombre-perfil"></div>
+            <p class="bio" id="bio-perfil">
+
             </p>
 
             <div class="preferencias">
-                <div>Mi color favorito es:</div><div></div>
-                <div>Mi libro favorito es:</div><div></div>
-                <div>Mi estilo de música preferida:</div><div></div>
-                <div>Video juegos favoritos:</div><div></div>
-                <div><b>Lenguajes aprendidos:</b></div><div><b></b></div>
+                <div>Mi color favorito es:</div><div id="pref-color"></div>
+                <div>Mi libro favorito es:</div><div id="pref-libro"></div>
+                <div>Mi estilo de música preferida:</div><div id="pref-musica"></div>
+                <div>Video juegos favoritos:</div><div id="pref-videojuego"></div>
+                <div><b>Lenguajes aprendidos:</b></div><div id="pref-lenguajes"><b></b></div>
             </div>
 
             <div class="contacto">
                 Si necesitan comunicarse conmigo me pueden escribir a: 
-                <a href=""></a>
+                <a href="" id="email-perfil"></a>
             </div>
         </div>
     </div>

@@ -1,0 +1,13 @@
+{
+"nombre":"Rama Gopal Villalobos",
+"descripcion":"Soy estudiante en Computación UCV. Actualmente curso materias en las áreas de Inteligencia Artificial, Redes y Computación Gráfica, relevantes a mi aspiración de desarrollar Videojuegos. Recientemente (2016) he empezado a escribir ensayos y relatos como primera aproximación a la Escritura.",
+"color": "Naranja",
+"libro": ["Mundo Anillo"],
+"musica": ["Chiptune"],
+"video_juego":["StarCraft", "La-Mulana", "Zelda"],
+"lenguajes":["Ensamblador x86", "C", "C++", "java" ,"haskell"],
+"email":"lokosselgrisis@gmail.com",
+"ci": "19395391",
+"genero":"masculino",
+"fecha_nacimiento":"15/09/1982"
+}
