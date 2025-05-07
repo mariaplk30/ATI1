@@ -1,122 +1,164 @@
 function formatearLista(list) {
     if (list.length <= 1) {
-        return list.join(", "); // Si solo hay uno, simplemente devuelve el elemento
+        return list.join(", ");
     } else {
-        const lastElement = list.pop(); // Extraemos el último elemento
-        return list.join(", ") + " y " + lastElement; // Unimos el resto y añadimos "y" antes del último
+        const lastElement = list.pop();
+        return list.join(", ") + " y " + lastElement;
     }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get("lang") || "es";
+    const configPath = `./conf/config${lang.toUpperCase()}.json`;
+    let config = null;
+
     // Cargar configuración
-    fetch("./conf/configES.json")
+    fetch(configPath)
         .then(response => {
             if (!response.ok) throw new Error("Error al cargar configuración");
-            return response.json(); 
-        })
-        .then(config => {
-            console.log("Configuración cargada:", config);
-
-            document.querySelector(".titulo").innerHTML = `
-                ${config.sitio[0]}<span>${config.sitio[1]}</span> ${config.sitio[2]}
-            `;
-            document.querySelector(".texto-centro").textContent = config.saludo + ", ";
-            document.querySelector('input[type="text"]').placeholder = config.nombre + "...";
-            document.querySelector('input[type="submit"]').value = config.buscar;
-            document.querySelector("footer").textContent = config.copyRight;
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-
-    // Cargar estudiantes
-    fetch("./datos/index.json")
-        .then(response => {
-            if (!response.ok) throw new Error("Error al cargar estudiantes");
             return response.json();
         })
-        .then(perfiles => {
-            const lista = document.querySelector(".estudiantes");
+        .then(json => {
+            config = json;
+            console.log("Configuración cargada:", config);
 
-            perfiles.forEach(est => {
-                const li = document.createElement("li");
-                li.classList.add("estudiante-item");
+            const titulo = document.querySelector(".titulo");
+            if (titulo) {
+                titulo.innerHTML = `${config.sitio[0]}<span>${config.sitio[1]}</span> ${config.sitio[2]}`;
+            }
 
-                li.innerHTML = `
-                    <img src="${est.imagen}" alt="Foto de ${est.nombre}">
-                    <p>${est.nombre}</p>
-                `;
+            const saludo = document.querySelector(".texto-centro");
+            if (saludo) saludo.textContent = config.saludo + ", ";
 
-                // Hace que el <li> sea clickeable
-                li.addEventListener("click", () => {
-                    window.location.href = `perfil.html?ci=${est.ci}`;
-                });
+            const inputNombre = document.querySelector('input[type="text"]');
+            if (inputNombre) inputNombre.placeholder = config.nombre + "...";
 
-                // Opcional: cambia el cursor para dar feedback de que es clickeable
-                li.style.cursor = "pointer";
+            const botonBuscar = document.querySelector('input[type="submit"]');
+            if (botonBuscar) botonBuscar.value = config.buscar;
 
-                lista.appendChild(li);
-            });
+            const footer = document.querySelector("footer");
+            if (footer) footer.textContent = config.copyRight;
+
+            // Si estamos en perfil.html, continúa con la carga del perfil
+            if (window.location.pathname.includes("perfil.html")) {
+                cargarPerfil(config, lang);
+            }
         })
         .catch(error => {
-            console.error("Error al cargar estudiantes:", error);
+            console.error("Error al cargar configuración:", error);
         });
 
-    // Detectar si estamos en perfil.html
-    if (window.location.pathname.includes("perfil.html")) {
-        const params = new URLSearchParams(window.location.search);
-        const ci = params.get("ci");
+    // Cargar estudiantes en index.html
+    if (window.location.pathname.includes("index.html") || window.location.pathname.endsWith("/")) {
+        fetch("./datos/index.json")
+            .then(response => {
+                if (!response.ok) throw new Error("Error al cargar estudiantes");
+                return response.json();
+            })
+            .then(perfiles => {
+                const lista = document.querySelector(".estudiantes");
 
-        if (ci) {
-            fetch(`./${ci}/perfil.json`)
-                .then(response => {
-                    if (!response.ok) throw new Error("No se pudo cargar el perfil.");
-                    return response.json();
-                })
-                .then(perfil => {
-                    // Imagen principal
-                    console.log("Perfil cargado:", perfil);
-                    function buscarImagen(imageElement, ci) {
-                        const imagePath = `${ci}/${ci}`;
-                        imageElement.src = `${imagePath}.png`;
-                
-                        imageElement.onerror = function() {
-                            imageElement.src = `${imagePath}.jpg`;
-                        };
-                    }
+                perfiles.forEach(est => {
+                    const li = document.createElement("li");
+                    li.classList.add("estudiante-item");
 
-                    buscarImagen(document.getElementById("foto-perfil"), ci);
-                    buscarImagen(document.getElementById("img-lg"), ci);
-                    buscarImagen(document.getElementById("img-sm"), ci);                    
-                                
-                    // Nombre y descripción
-                    document.getElementById("nombre-perfil").textContent = perfil.nombre;
-                    document.getElementById("bio-perfil").textContent = perfil.descripcion;
+                    li.innerHTML = `
+                        <img src="${est.imagen}" alt="Foto de ${est.nombre}">
+                        <p>${est.nombre}</p>
+                    `;
 
-                    // Preferencias
-                    document.getElementById("pref-color").textContent = perfil.color;
-                    document.getElementById("pref-libro").textContent = perfil.libro;
-                    document.getElementById("pref-musica").textContent = formatearLista(perfil.musica || []);
-                    document.getElementById("pref-videojuego").textContent = formatearLista(perfil.video_juego || []);
-                    document.getElementById("pref-lenguajes").textContent = formatearLista(perfil.lenguajes || []);
+                    li.addEventListener("click", () => {
+                        window.location.href = `perfil.html?ci=${est.ci}&lang=${lang}`;
+                    });
 
-                    // Contacto
-                    const emailLink = document.getElementById("email-perfil");
-                    emailLink.href = `mailto:${perfil.email}`;
-                    emailLink.textContent = perfil.email;
-                })
-                .catch(error => {
-                    console.error("Error al cargar el perfil:", error);
-                    const infoContenedor = document.querySelector(".info-contenedor");
-                    if (infoContenedor) {
-                        infoContenedor.innerHTML = "<p>Error al cargar el perfil del estudiante.</p>";
-                    }
+                    li.style.cursor = "pointer";
+                    lista.appendChild(li);
                 });
-        } else {
-            const infoContenedor = document.querySelector(".info-contenedor");
-            if (infoContenedor) {
-                infoContenedor.innerHTML = "<p>No se especificó un perfil válido.</p>";
-            }
-        }
+            })
+            .catch(error => {
+                console.error("Error al cargar estudiantes:", error);
+            });
     }
 });
+
+function cargarPerfil(config, lang) {
+    const params = new URLSearchParams(window.location.search);
+    const ci = params.get("ci");
+
+    if (!ci) {
+        const infoContenedor = document.querySelector(".info-contenedor");
+        if (infoContenedor) {
+            infoContenedor.innerHTML = "<p>No se especificó un perfil válido.</p>";
+        }
+        return;
+    }
+
+    fetch(`./${ci}/perfil.json`)
+        .then(response => {
+            if (!response.ok) throw new Error("No se pudo cargar el perfil.");
+            return response.json();
+        })
+        .then(perfil => {
+            console.log("Perfil cargado:", perfil);
+
+            function buscarImagen(imageElement, ci) {
+                const imagePath = `${ci}/${ci}`;
+                imageElement.src = `${imagePath}.png`;
+                imageElement.onerror = () => {
+                    imageElement.src = `${imagePath}.jpg`;
+                };
+            }
+
+            buscarImagen(document.getElementById("foto-perfil"), ci);
+            buscarImagen(document.getElementById("img-lg"), ci);
+            buscarImagen(document.getElementById("img-sm"), ci);
+
+            // Textos dinámicos
+            const setText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text;
+            };
+
+            setText("nombre-perfil", perfil.nombre);
+            setText("bio-perfil", perfil.descripcion);
+            setText("pref-color", perfil.color);
+            setText("pref-libro", perfil.libro);
+            setText("pref-musica", formatearLista(perfil.musica || []));
+            setText("pref-videojuego", formatearLista(perfil.video_juego || []));
+            const lenguajesDiv = document.getElementById("pref-lenguajes");
+            if (lenguajesDiv) lenguajesDiv.innerHTML = `<b>${formatearLista(perfil.lenguajes || [])}</b>`;
+
+            const emailLink = document.getElementById("email-perfil");
+            if (emailLink) {
+                emailLink.href = `mailto:${perfil.email}`;
+                emailLink.textContent = perfil.email;
+            }
+
+            // Insertar etiquetas según idioma
+            const setLabel = (id, text, isBold = false) => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = isBold ? `<b>${text}</b>` : text;
+            };
+
+            setLabel("lbl-color", config.color);
+            setLabel("lbl-libro", config.libro);
+            setLabel("lbl-musica", config.musica);
+            setLabel("lbl-videojuego", config.video_juego);
+            setLabel("lbl-lenguajes", config.lenguajes, true);
+
+            const contacto = document.getElementById("contacto-texto");
+            if (contacto) {
+                const emailHTML = `<a id="email-perfil" href="mailto:${perfil.email}">${perfil.email}</a>`;
+                contacto.innerHTML = config.email.replace("[email]", emailHTML);
+            }
+            
+        })
+        .catch(error => {
+            console.error("Error al cargar el perfil:", error);
+            const infoContenedor = document.querySelector(".info-contenedor");
+            if (infoContenedor) {
+                infoContenedor.innerHTML = "<p>Error al cargar el perfil del estudiante.</p>";
+            }
+        });
+}
