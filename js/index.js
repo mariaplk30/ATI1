@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const footer = document.querySelector("footer");
             if (footer) footer.textContent = config.copyRight;
 
-            // Si estamos en perfil.html, continúa con la carga del perfil
             if (window.location.pathname.includes("perfil.html")) {
                 cargarPerfil(config, lang);
             }
@@ -49,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error al cargar configuración:", error);
         });
 
-    // Cargar estudiantes en index.html
     if (window.location.pathname.includes("index.html") || window.location.pathname.endsWith("/")) {
         fetch("./datos/index.json")
             .then(response => {
@@ -57,23 +55,57 @@ document.addEventListener("DOMContentLoaded", function () {
                 return response.json();
             })
             .then(perfiles => {
-                const lista = document.querySelector(".estudiantes");
-
                 perfiles.forEach(est => {
-                    const li = document.createElement("li");
-                    li.classList.add("estudiante-item");
+                    const lista = document.querySelector(".estudiantes");
 
-                    li.innerHTML = `
-                        <img src="${est.imagen}" alt="Foto de ${est.nombre}">
-                        <p>${est.nombre}</p>
-                    `;
-
-                    li.addEventListener("click", () => {
-                        window.location.href = `perfil.html?ci=${est.ci}&lang=${lang}`;
+                    let todosLosEstudiantes = perfiles;
+                    
+                    function mostrarEstudiantes(estudiantesFiltrados, query = "") {
+                        // Limpiar mensajes anteriores de no coincidencias
+                        const mensajeAnterior = document.querySelector(".mensaje-no-coincidencias");
+                        if (mensajeAnterior) {
+                            mensajeAnterior.remove();
+                        }
+                        
+                        lista.innerHTML = "";
+                        
+                        if (estudiantesFiltrados.length === 0) {
+                            const contenedorMensaje = document.createElement("div");
+                            contenedorMensaje.classList.add("mensaje-no-coincidencias", "sin-coincidencias");
+                            contenedorMensaje.textContent = config.noCoincidencias.replace("[query]", query);
+                            
+                            lista.parentNode.insertBefore(contenedorMensaje, lista.nextSibling);
+                            return;
+                        }
+                        
+                        // Mostrar estudiantes si hay coincidencias
+                        estudiantesFiltrados.forEach(est => {
+                            const li = document.createElement("li");
+                            li.classList.add("estudiante-item");
+                            li.innerHTML = `
+                                <img src="${est.imagen}" alt="Foto de ${est.nombre}">
+                                <p>${est.nombre}</p>
+                            `;
+                            li.addEventListener("click", () => {
+                                window.location.href = `perfil.html?ci=${est.ci}&lang=${lang}`;
+                            });
+                            li.style.cursor = "pointer";
+                            lista.appendChild(li);
+                        });
+                    }
+                    
+                    mostrarEstudiantes(todosLosEstudiantes);
+                    
+                    const campoBusqueda = document.querySelector('input[type="text"]');
+                    campoBusqueda.addEventListener("input", (e) => {
+                        const query = e.target.value.trim().toLowerCase();
+                        const filtrados = todosLosEstudiantes.filter(est =>
+                            est.nombre.toLowerCase().includes(query)
+                        );
+                        mostrarEstudiantes(filtrados, query);
+                        
                     });
-
-                    li.style.cursor = "pointer";
-                    lista.appendChild(li);
+                    
                 });
             })
             .catch(error => {

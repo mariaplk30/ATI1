@@ -12,5 +12,6 @@
 	"lenguajes":"Linguagems aprendidas",
 	"email":"Se precisar me contatar pode me escrever em [email]",
 	"buscar": "Procurar",
-	"saludo": "Olá"
+	"saludo": "Olá",
+	"noCoincidencias": "Nenhum aluno encontrado com nome contendo: [query]"
 }

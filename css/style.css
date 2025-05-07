@@ -223,6 +223,14 @@ footer {
   border-top: 0.125rem solid #ccc;
 }
 
+.sin-coincidencias {
+  color: #B0C4DE;
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+
 @keyframes rotar {
   0% {
     transform: rotate(0deg) scale(1);
