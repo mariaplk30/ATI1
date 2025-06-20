@@ -1,196 +1,194 @@
 function formatearLista(list) {
-    if (list.length <= 1) {
-        return list.join(", ");
-    } else {
-        const lastElement = list.pop();
-        return list.join(", ") + " y " + lastElement;
-    }
+    if (!list || list.length === 0) return '';
+    if (list.length === 1) return list[0];
+    const last = list.pop();
+    return list.join(", ") + " y " + last;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const params = new URLSearchParams(window.location.search);
-    const lang = params.get("lang") || "es";
-    const configPath = `./conf/config${lang.toUpperCase()}.json`;
-    let config = null;
+function configurarEstructura(config) {
+    const titulo = document.querySelector(".titulo");
+    if (titulo) {
+        titulo.innerHTML = `${config.sitio[0]}<span>${config.sitio[1]}</span> ${config.sitio[2]}`;
+    }
 
-    // Cargar configuración
-    fetch(configPath)
-        .then(response => {
-            if (!response.ok) throw new Error("Error al cargar configuración");
-            return response.json();
-        })
-        .then(json => {
-            config = json;
-            console.log("Configuración cargada:", config);
+    const saludo = document.querySelector(".texto-centro");
+    if (saludo) saludo.textContent = config.saludo + ", ";
 
-            const titulo = document.querySelector(".titulo");
-            if (titulo) {
-                titulo.innerHTML = `${config.sitio[0]}<span>${config.sitio[1]}</span> ${config.sitio[2]}`;
-            }
+    const inputNombre = document.querySelector('input[type="text"]');
+    if (inputNombre) inputNombre.placeholder = config.nombre + "...";
 
-            const saludo = document.querySelector(".texto-centro");
-            if (saludo) saludo.textContent = config.saludo + ", ";
+    const botonBuscar = document.querySelector('input[type="submit"]');
+    if (botonBuscar) botonBuscar.value = config.buscar;
 
-            const inputNombre = document.querySelector('input[type="text"]');
-            if (inputNombre) inputNombre.placeholder = config.nombre + "...";
+    const footer = document.querySelector("footer");
+    if (footer) footer.textContent = config.copyRight;
+}
 
-            const botonBuscar = document.querySelector('input[type="submit"]');
-            if (botonBuscar) botonBuscar.value = config.buscar;
+function cargarIndex(config, lang) {
+    document.body.className = "index";
+    configurarEstructura(config);
 
-            const footer = document.querySelector("footer");
-            if (footer) footer.textContent = config.copyRight;
+    const section = document.querySelector("section");
+    section.innerHTML = '<ul class="estudiantes"></ul>';
+    const lista = section.querySelector(".estudiantes");
 
-            if (window.location.pathname.includes("perfil.html")) {
-                cargarPerfil(config, lang);
-            }
-        })
-        .catch(error => {
-            console.error("Error al cargar configuración:", error);
-        });
+    fetch("./datos/index.json")
+        .then(response => response.json())
+        .then(perfiles => {
+            mostrarEstudiantes(perfiles);
 
-    if (window.location.pathname.includes("index.html") || window.location.pathname.endsWith("/")) {
-        fetch("./datos/index.json")
-            .then(response => {
-                if (!response.ok) throw new Error("Error al cargar estudiantes");
-                return response.json();
-            })
-            .then(perfiles => {
-                perfiles.forEach(est => {
-                    const lista = document.querySelector(".estudiantes");
-
-                    let todosLosEstudiantes = perfiles;
-                    
-                    function mostrarEstudiantes(estudiantesFiltrados, query = "") {
-                        // Limpiar mensajes anteriores de no coincidencias
-                        const mensajeAnterior = document.querySelector(".mensaje-no-coincidencias");
-                        if (mensajeAnterior) {
-                            mensajeAnterior.remove();
-                        }
-                        
-                        lista.innerHTML = "";
-                        
-                        if (estudiantesFiltrados.length === 0) {
-                            const contenedorMensaje = document.createElement("div");
-                            contenedorMensaje.classList.add("mensaje-no-coincidencias", "sin-coincidencias");
-                            contenedorMensaje.textContent = config.noCoincidencias.replace("[query]", query);
-                            
-                            lista.parentNode.insertBefore(contenedorMensaje, lista.nextSibling);
-                            return;
-                        }
-                        
-                        // Mostrar estudiantes si hay coincidencias
-                        estudiantesFiltrados.forEach(est => {
-                            const li = document.createElement("li");
-                            li.classList.add("estudiante-item");
-                            li.innerHTML = `
-                                <img src="${est.imagen}" alt="Foto de ${est.nombre}">
-                                <p>${est.nombre}</p>
-                            `;
-                            li.addEventListener("click", () => {
-                                window.location.href = `perfil.html?ci=${est.ci}&lang=${lang}`;
-                            });
-                            li.style.cursor = "pointer";
-                            lista.appendChild(li);
-                        });
-                    }
-                    
-                    mostrarEstudiantes(todosLosEstudiantes);
-                    
-                    const campoBusqueda = document.querySelector('input[type="text"]');
-                    campoBusqueda.addEventListener("input", (e) => {
-                        const query = e.target.value.trim().toLowerCase();
-                        const filtrados = todosLosEstudiantes.filter(est =>
-                            est.nombre.toLowerCase().includes(query)
-                        );
-                        mostrarEstudiantes(filtrados, query);
-                        
-                    });
-                    
-                });
-            })
-            .catch(error => {
-                console.error("Error al cargar estudiantes:", error);
+            const campoBusqueda = document.querySelector('input[type="text"]');
+            campoBusqueda.addEventListener("input", (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                const filtrados = perfiles.filter(est =>
+                    est.nombre.toLowerCase().includes(query)
+                );
+                mostrarEstudiantes(filtrados, query);
             });
-    }
-});
 
-function cargarPerfil(config, lang) {
-    const params = new URLSearchParams(window.location.search);
-    const ci = params.get("ci");
+            function mostrarEstudiantes(estudiantesFiltrados, query = "") {
+                const mensajeAnterior = document.querySelector(".mensaje-no-coincidencias");
+                if (mensajeAnterior) mensajeAnterior.remove();
 
-    if (!ci) {
-        const infoContenedor = document.querySelector(".info-contenedor");
-        if (infoContenedor) {
-            infoContenedor.innerHTML = "<p>No se especificó un perfil válido.</p>";
-        }
-        return;
-    }
+                lista.innerHTML = "";
 
-    fetch(`./${ci}/perfil.json`)
+                if (estudiantesFiltrados.length === 0) {
+                    const contenedorMensaje = document.createElement("div");
+                    contenedorMensaje.classList.add("mensaje-no-coincidencias", "sin-coincidencias");
+                    contenedorMensaje.textContent = config.noCoincidencias.replace("[query]", query);
+                    lista.parentNode.insertBefore(contenedorMensaje, lista.nextSibling);
+                    return;
+                }
+
+                estudiantesFiltrados.forEach(est => {
+                    const li = document.createElement("li");
+                    li.classList.add("estudiante-item");
+                    li.innerHTML = `
+                        <img src="${est.imagen}" alt="Foto de ${est.nombre}">
+                        <p>${est.nombre}</p>
+                    `;
+                    li.addEventListener("click", () => {
+                        history.pushState(null, "", `?ci=${est.ci}&lang=${lang}`);
+                        cargarPerfil(config, lang, est.ci);
+                    });
+                    li.style.cursor = "pointer";
+                    lista.appendChild(li);
+                });
+            }
+        });
+}
+
+function cargarPerfil(config, lang, ci) {
+    document.body.className = "perfil";
+
+    // Ocultar encabezado y sección previa
+    const header = document.querySelector("header");
+    const section = document.querySelector("section");
+    const footer = document.querySelector("footer");
+
+    if (header) header.style.display = "none";
+    if (footer) footer.style.display = "none";
+    if (section) section.remove();
+
+    // Crear nuevo contenedor para el perfil
+    const contenedor = document.createElement("div");
+    contenedor.className = "contenedor";
+    document.body.appendChild(contenedor);
+
+    fetch(`/ATI/${ci}/perfil.json`)
         .then(response => {
             if (!response.ok) throw new Error("No se pudo cargar el perfil.");
             return response.json();
         })
         .then(perfil => {
-            console.log("Perfil cargado:", perfil);
-
-            function buscarImagen(imageElement, ci) {
-                const imagePath = `${ci}/${ci}`;
-                imageElement.src = `${imagePath}.png`;
-                imageElement.onerror = () => {
-                    imageElement.src = `${imagePath}.jpg`;
-                };
-            }
-
-            buscarImagen(document.getElementById("foto-perfil"), ci);
-            buscarImagen(document.getElementById("img-lg"), ci);
-            buscarImagen(document.getElementById("img-sm"), ci);
-
-            // Textos dinámicos
-            const setText = (id, text) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = text;
-            };
-
-            setText("nombre-perfil", perfil.nombre);
-            setText("bio-perfil", perfil.descripcion);
-            setText("pref-color", perfil.color);
-            setText("pref-libro", perfil.libro);
-            setText("pref-musica", formatearLista(perfil.musica || []));
-            setText("pref-videojuego", formatearLista(perfil.video_juego || []));
-            const lenguajesDiv = document.getElementById("pref-lenguajes");
-            if (lenguajesDiv) lenguajesDiv.innerHTML = `<b>${formatearLista(perfil.lenguajes || [])}</b>`;
-
-            const emailLink = document.getElementById("email-perfil");
-            if (emailLink) {
-                emailLink.href = `mailto:${perfil.email}`;
-                emailLink.textContent = perfil.email;
-            }
-
-            // Insertar etiquetas según idioma
-            const setLabel = (id, text, isBold = false) => {
-                const el = document.getElementById(id);
-                if (el) el.innerHTML = isBold ? `<b>${text}</b>` : text;
-            };
-
-            setLabel("lbl-color", config.color);
-            setLabel("lbl-libro", config.libro);
-            setLabel("lbl-musica", config.musica);
-            setLabel("lbl-videojuego", config.video_juego);
-            setLabel("lbl-lenguajes", config.lenguajes, true);
-
-            const contacto = document.getElementById("contacto-texto");
-            if (contacto) {
-                const emailHTML = `<a id="email-perfil" href="mailto:${perfil.email}">${perfil.email}</a>`;
-                contacto.innerHTML = config.email.replace("[email]", emailHTML);
-            }
-            
+            contenedor.innerHTML = `
+                <div class="contenedor-foto">
+                <picture>
+                <img
+                    id="foto-perfil"
+                    src="./${ci}/${ci}.jpg"
+                    alt="Foto del estudiante"
+                    onerror="this.onerror=null;this.src='./${ci}/${ci}.png'"
+                    style="display: block; width: 200px;"
+                >
+                </picture>
+                </div>
+                <div class="info-contenedor">
+                    <div class="nombre" id="nombre-perfil">${perfil.nombre}</div>
+                    <p class="bio" id="bio-perfil">${perfil.descripcion}</p>
+                    <div class="preferencias">
+                        <div id="lbl-color">${config.color}</div><div id="pref-color">${perfil.color}</div>
+                        <div id="lbl-libro">${config.libro}</div><div id="pref-libro">${perfil.libro}</div>
+                        <div id="lbl-musica">${config.musica}</div><div id="pref-musica">${formatearLista(perfil.musica)}</div>
+                        <div id="lbl-videojuego">${config.video_juego}</div><div id="pref-videojuego">${formatearLista(perfil.video_juego)}</div>
+                        <div id="lbl-lenguajes"><b>${config.lenguajes}</b></div><div id="pref-lenguajes"><b>${formatearLista(perfil.lenguajes)}</b></div>
+                    </div>
+                    <div class="contacto" id="contacto-texto">
+                        ${config.email.replace("[email]", `<a id="email-perfil" href="mailto:${perfil.email}">${perfil.email}</a>`)}
+                    </div>
+                </div>
+            `;
         })
         .catch(error => {
             console.error("Error al cargar el perfil:", error);
-            const infoContenedor = document.querySelector(".info-contenedor");
-            if (infoContenedor) {
-                infoContenedor.innerHTML = "<p>Error al cargar el perfil del estudiante.</p>";
+            contenedor.innerHTML = "<p>Error al cargar el perfil del estudiante.</p>";
+        });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get("lang") || "es";
+    const ci = params.get("ci");
+    const configPath = `./conf/config${lang.toUpperCase()}.json`;
+
+    fetch(configPath)
+        .then(res => res.json())
+        .then(config => {
+            if (ci) {
+                cargarPerfil(config, lang, ci);
+            } else {
+                cargarIndex(config, lang);
             }
         });
+});
+
+// Detectar navegación atrás/adelante y actualizar la vista
+window.addEventListener("popstate", () => {
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get("lang") || "es";
+    const ci = params.get("ci");
+
+    fetch(`./conf/config${lang.toUpperCase()}.json`)
+        .then(res => res.json())
+        .then(config => {
+            limpiarVista();
+
+            if (ci) {
+                cargarPerfil(config, lang, ci);
+            } else {
+                mostrarLayoutBase(); // restaura <header>, <footer>, etc.
+                cargarIndex(config, lang);
+            }
+        });
+});
+
+function limpiarVista() {
+    // Limpia perfil si está cargado
+    const perfilContenedor = document.querySelector(".contenedor");
+    if (perfilContenedor) perfilContenedor.remove();
+
+    // Limpia section duplicada si existe
+    const section = document.querySelector("section");
+    if (section) section.remove();
+}
+
+function mostrarLayoutBase() {
+    const header = document.querySelector("header");
+    const footer = document.querySelector("footer");
+    if (header) header.style.display = "";
+    if (footer) footer.style.display = "";
+
+    const nuevaSeccion = document.createElement("section");
+    nuevaSeccion.innerHTML = '<ul class="estudiantes"></ul>';
+    document.body.insertBefore(nuevaSeccion, footer);
 }
